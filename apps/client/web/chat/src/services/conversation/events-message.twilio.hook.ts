@@ -3,17 +3,14 @@ import { ConversationContext } from "../../store/conversation/conversation.twili
 import { MessageRoomContext } from "../../store/conversation/message-room.twilio.context"
 
 export const useEventsMessage = () => {
-  const { client, activeConversation: conversation } = useContext(ConversationContext)
-  const { setMessages, setIsLoading, listenedEvents, setListenedEvents } = useContext(MessageRoomContext)
+  const { activeConversation: conversation } = useContext(ConversationContext)
+  const { setMessages, setIsLoading } = useContext(MessageRoomContext)
+
 
   const onListenMessages = async () => {
-    console.log({ client, listenedEvents, conversation })
-    if (client === null || listenedEvents === true || conversation === null) return
-    setListenedEvents(true)
-    console.log('Listening to messages')
+    if (!conversation) return
 
     conversation.on('messageAdded', async (message) => {
-      console.log('messageAdded', { message })
       setIsLoading(true)
       setMessages((prev) => [...prev, message])
       setIsLoading(false)
@@ -30,8 +27,8 @@ export const useEventsMessage = () => {
     })
   }
 
+
   return {
-    onListenMessages,
-    listenedEvents
+    onListenMessages
   }
 }

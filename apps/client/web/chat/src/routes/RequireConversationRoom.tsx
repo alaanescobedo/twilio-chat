@@ -1,11 +1,10 @@
 import { LoadingOverlay } from "@mantine/core"
 import { useEffect, useState } from "react"
-import { Navigate, useParams } from "react-router-dom"
-import ConversationPage from "../pages/conversations/Conversation.page"
+import { Navigate, useLocation, useParams } from "react-router-dom"
 import { useBootstrapConversationRoom } from "../services/bootstrap/boostrap.conversation"
 import { useConversation } from "../store/conversation/conversation.twilio.context"
 
-const RequireConversationRoom = () => {
+const RequireConversationRoom = ({ children }: { children: JSX.Element }) => {
   const { conversationId } = useParams()
 
   const { client, activeConversation: conversation } = useConversation()
@@ -24,7 +23,7 @@ const RequireConversationRoom = () => {
   if (isFail === true || !conversationId) return <Navigate to='/conversations/me' />
   if (client === null || conversation === null) return <LoadingOverlay visible={true} />
 
-  return <ConversationPage />
+  return children
 }
 
 export default RequireConversationRoom

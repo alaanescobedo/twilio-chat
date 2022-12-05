@@ -16,6 +16,7 @@ export const ConversationProvider = ({ children }: { children: ReactElement }) =
   const [activeConversation, setActiveConversation] = useState<Conversation | null>(initialValues.activeConversation);
   const [listenedEvents, setListenedEvents] = useState<boolean>(initialValues.listenedEvents);
   const [roles, setRoles] = useState<{ [key: string]: string }>(initialValues.roles);
+  const [listenedRooms, setListenedRooms] = useState<string[]>(initialValues.listenedRooms);
 
   const [identityStorage, setIdentityStorage] = useSessionStorage({
     key: 'identity',
@@ -41,7 +42,9 @@ export const ConversationProvider = ({ children }: { children: ReactElement }) =
       listenedEvents,
       setListenedEvents,
       roles,
-      setRoles
+      setRoles,
+      listenedRooms,
+      setListenedRooms,
     }}>
       {children}
     </ConversationContext.Provider>

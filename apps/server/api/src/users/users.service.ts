@@ -22,6 +22,7 @@ export class UsersService {
   }
 
   async findOne(attrs: Partial<FindOneUserDto>) {
+    console.log({ attrs });
     return this.userModel.findOne(attrs) ?? null;
   }
 

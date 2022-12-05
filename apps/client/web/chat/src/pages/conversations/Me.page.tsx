@@ -11,7 +11,7 @@ const MePage = () => {
     <ConversationChatLayout
       mainPanel={<div />}
       panelLeft={<ChatRoomsContainer />}
-      panelTop={<ChatDetailsContainer chatName={`${identity} info`} />}
+      panelTop={<ChatDetailsContainer chatName={`${identity}`} />}
       panelRight={<div />}
     />
   )

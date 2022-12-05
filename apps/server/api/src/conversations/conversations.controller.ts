@@ -4,6 +4,7 @@ import { Role } from 'src/roles/enums/role.enum';
 import { GenerateTokenDto } from './dtos/generate-token.dto';
 import { TwilioService } from './twilio.service';
 
+// TODO: Refactor this shit
 @Controller('conversations')
 export class ConversationsController {
 
@@ -13,11 +14,12 @@ export class ConversationsController {
 
   @Post('/chat/generate-token')
   async generateChatToken(@Body() { identity }: Pick<GenerateTokenDto, 'identity'>) {
+    console.log({ identity });
     return this.chatService.getAccessTokenForChat({ identity })
   }
 
   @Roles(Role.SuperAdmin)
-  @Post('/chat/generate-token')
+  @Post('/chat/admin/generate-token')
   async generateChatTokenWithServiceAdmin(@Body() { identity }: Pick<GenerateTokenDto, 'identity'>) {
     return this.chatService.getAccessTokenForChat({ identity, roles: ['user', 'admin'] })
   }
@@ -35,6 +37,7 @@ export class ConversationsController {
 
   @Get('/chat/service/roles')
   async getRoles() {
+    console.log('getRoles');
     return this.chatService.getRoles();
   }
 
@@ -49,6 +52,7 @@ export class ConversationsController {
 
   @Get('/chat/users/:identity')
   async getUser(@Param('identity') identity: string) {
+    console.log('>>>',{ identity });
     return this.chatService.getUser({ identity });
   }
 

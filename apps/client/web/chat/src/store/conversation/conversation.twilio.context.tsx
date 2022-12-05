@@ -20,6 +20,8 @@ interface ConversationContextProps {
   setListenedEvents: Dispatch<SetStateAction<boolean>>
   roles: { [key: string]: string }
   setRoles: Dispatch<SetStateAction<{ [key: string]: string }>>
+  listenedRooms: string[]
+  setListenedRooms: Dispatch<SetStateAction<string[]>>
 }
 export const ConversationContext = createContext<ConversationContextProps>({
   identity: "",
@@ -35,6 +37,8 @@ export const ConversationContext = createContext<ConversationContextProps>({
   listenedEvents: false,
   setListenedEvents: () => { },
   roles: {},
-  setRoles: () => { }
+  setRoles: () => { },
+  listenedRooms: [],
+  setListenedRooms: () => { },
 })
 export const useConversation = () => useContext<ConversationContextProps>(ConversationContext)

@@ -3,15 +3,16 @@ import { useContext } from "react"
 import { ConversationContext } from "../../store/conversation/conversation.twilio.context"
 
 export const useEventsConversation = () => {
-  const { client, setConversations, setIsLoading, listenedEvents, setListenedEvents } = useContext(ConversationContext)
+  const { client, setConversations, setIsLoading, listenedRooms, setListenedRooms } = useContext(ConversationContext)
 
   const onListenConversations = () => {
-    if (!client || listenedEvents === true) return
-    setListenedEvents(true)
+    console.log(listenedRooms.includes('app'))
+    if (!client) return
+    if (listenedRooms.includes('app')) return
+    setListenedRooms(prev => [...prev, 'app'])
+    console.log('listen app')
 
     client.on('conversationJoined', (conversation) => {
-      console.log('joined')
-      console.log({ conversation })
       setIsLoading(true)
       setConversations((prev) => [...prev, conversation])
       setIsLoading(false)
@@ -48,10 +49,13 @@ export const useEventsConversation = () => {
         message: error.message ?? 'Ups! Something went wrong',
       })
     })
+    client.on('typingStarted', (conversation) => {
+      console.log('typingStarted')
+      console.log({ conversation })
+    })
   }
 
   return {
-    onListenConversations,
-    listenedEvents
+    onListenConversations
   }
 }

@@ -1,9 +1,10 @@
 import { showNotification } from "@mantine/notifications"
-import { useContext, useState } from "react"
+import { useContext, useEffect, useRef, useState } from "react"
 import { ConversationContext } from "../../store/conversation/conversation.twilio.context"
 import { MessageRoomContext } from "../../store/conversation/message-room.twilio.context"
 import { ParticipantsRoomContext } from "../../store/conversation/participant-room.twilio.context"
 import { useUser } from "../../store/user/user.context"
+
 
 export const useBootstrapConversationRoom = (conversationId: string) => {
   const { client, setActiveConversation } = useContext(ConversationContext)
@@ -16,7 +17,7 @@ export const useBootstrapConversationRoom = (conversationId: string) => {
     try {
       if (!conversationId) throw new Error('ConversationId not found')
       setDone(false)
-      
+
       const conversation = await client?.getConversationBySid(conversationId)
       if (!conversation) throw new Error('Conversation not found')
 

@@ -11,7 +11,7 @@ const conversationFactory = async ({ client, room, method }: HandleConversationP
   if (!client) throw new Error('Client is required')
 
   const methods = {
-    create: async () => await client.createConversation({ uniqueName: `${Math.random()*3.14}_${room}`, friendlyName: room }),
+    create: async () => await client.createConversation({ uniqueName: `${Math.ceil(Math.random()*10000)}_${room}`, friendlyName: room }),
     get: async () => await client.getConversationBySid(room),
     join: async () => await client.getConversationBySid(room).then(conversation => conversation.join()),
     leave: async () => await client.getConversationBySid(room).then(conversation => conversation.leave()),

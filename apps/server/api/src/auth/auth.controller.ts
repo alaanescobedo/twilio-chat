@@ -8,6 +8,7 @@ import { Role } from 'src/roles/enums/role.enum';
 import { UsersService } from 'src/users/users.service';
 import { AuthService } from './auth.service';
 import { User } from 'src/users/schemas/user.schema';
+import passport from 'passport'
 
 @Controller('auth')
 @Serialize(UserDto)
@@ -52,4 +53,14 @@ export class AuthController {
     return user
   }
 
+  @Get('/auth/github')
+  async signinGithub() {
+    passport.authenticate('github', { scope: ['user:email'] })
+
+  }
+
+  @Get('/auth/github/callback')
+  async singinGithubCallback() {
+    passport.authenticate('github', { failureRedirect: '/login' })
+  }
 }

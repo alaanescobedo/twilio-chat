@@ -8,13 +8,14 @@ export class TwilioService {
   private readonly twilioAccountSid = 'AC51409c04df11daf104fa91c6dbf25d5a';
   private readonly twilioApiKey = 'SK0ecf8c170ca93fdfb02b4e6448864d69';
   private readonly twilioApiSecret = 'aZx1lXEgtQ7OeWxRoDlzjV2dxvPpDiKm';
-  private readonly serviceSid = 'ISb69f3806b9c543c4900befaa96ef2528'
+  private readonly serviceSid = 'IS2ea8fa6f658a4041ad374bbd0607a2d6'
   private readonly twimlAppSid = 'APf37ff5df25ebe8cad14ac72a99150e89'//Renovate
 
-  private readonly serviceAdminSid = 'RLe040185ff5bb42028a6639967a342682'
-  private readonly serviceUserSid = 'RL6d2bb36769a34ef1b45b145ae344a506'
-  private readonly channelAdminSid = 'RL58857ee715364eee88b4f22da8778197'
-  private readonly channelUserSid = 'RLa451afb14b174573bd0c13a26e730ce7'
+  private readonly serviceAdminSid = 'RLf094c4f0ba19416486c8ee996255dd10'
+  private readonly serviceUserSid = 'RL449b0a625ccc44fea6e04937987daef8'
+  private readonly channelAdminSid = 'RL98e1eb3666c9478099d24bdffbf00836'
+  private readonly channelUserSid = 'RLb0859716774849d9a673df2030354bfb'
+  private readonly channelMasterSid = 'RLf1632a774a0c44d4b4e0dbe9ac1c0348'
 
   client: twilio.Twilio;
   conversationService: ServiceContext
@@ -33,6 +34,7 @@ export class TwilioService {
 
   getAccessTokenForChat({ identity, roles }: GenerateTokenDto) {
     const roleSid = roles?.includes('admin') ? this.serviceAdminSid : this.serviceUserSid
+    console.log({ roleSid })
 
     const AccessToken = twilio.jwt.AccessToken
     const ChatGrant = AccessToken.ChatGrant
@@ -46,6 +48,7 @@ export class TwilioService {
       this.twilioApiSecret,
       { identity }
     )
+    console.log({ token })
     token.addGrant(chatGrant)
     return { tokenValue: token.toJwt() }
   }
@@ -65,6 +68,7 @@ export class TwilioService {
 
   async getRoles() {
     const roles = await this.conversationService.roles.list({ limit: 100 })
+    console.log({ roles })
 
     const formatData = roles.reduce((acc, role) => {
       acc[role.sid] = role.friendlyName

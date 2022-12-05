@@ -8,9 +8,7 @@ interface SendMessageProps {
 }
 export const sendMessage = async ({ conversation, text, to }: SendMessageProps) => {
   if (!conversation) return
-  console.log({ conversation })
   const [errorMessage, message] = await tryToCatch<MessageBuilder>(() => conversation.prepareMessage())
-  console.log({ errorMessage, message })
   if (errorMessage || !message) throw errorMessage
 
   message
